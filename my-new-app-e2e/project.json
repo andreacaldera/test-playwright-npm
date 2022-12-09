@@ -1,0 +1,40 @@
+{
+  "name": "my-new-app-e2e",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "./my-new-app-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@mands/nx-playwright:playwright-executor",
+      "options": {
+        "e2eFolder": "./my-new-app-e2e",
+        "devServerTarget": "my-new-app:serve",
+        "packageRunner": "npx"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "my-new-app:serve:production"
+        }
+      }
+    },
+    "ts-check": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "tsc --build --force --verbose apps/my-new-app-e2e/tsconfig.json"
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["./my-new-app-e2e/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["my-new-app"]
+}
